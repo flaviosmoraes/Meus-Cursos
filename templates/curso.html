@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ curso.nome }}{% endblock %}
+
+{% block head %}{% endblock %}
+
+{% macro render_modulos(modulos, parent_id="") %}
+    <div class="accordion shadow" id="accordion{{ parent_id }}">
+        {% for modulo in modulos %}
+            {% set modulo_id = (parent_id ~ loop.index) %}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading{{ modulo_id }}">
+                    <button class="accordion-button collapsed" type="button" 
+                            data-bs-toggle="collapse" data-bs-target="#collapse{{ modulo_id }}" 
+                            aria-expanded="false" aria-controls="collapse{{ modulo_id }}">
+                        {{ modulo.nome }}
+                    </button>
+                </h2>
+                <div id="collapse{{ modulo_id }}" class="accordion-collapse collapse" 
+                     aria-labelledby="heading{{ modulo_id }}" data-bs-parent="#accordion{{ parent_id }}">
+                    <div class="accordion-body">
+                        {% if modulo.videos %}
+                            <ul class="mb-0">
+                                {% for video in modulo.videos %}
+                                    <li>
+                                        <a href="{{ url_for('video', curso_id=curso_id, video_id=video.id) }}">
+                                            {{ video.title }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% if modulo.modulos %}
+                            {{ render_modulos(modulo.modulos, modulo_id) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endmacro %}
+
+{% block content %}
+    <div class="container mt-4 text-start justify-content-start">
+        <h1 class="mb-4 dracula-green">{{ curso.nome }}</h1>
+        {{ render_modulos(curso.modulos) }}
+    </div>
+{% endblock %}
+
+{% block scripts %}{% endblock %}

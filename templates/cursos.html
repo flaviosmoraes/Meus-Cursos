@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Meus Cursos - Cursos{% endblock %}
+
+{% block content %}
+<div class="conteudo container d-flex flex-column justify-content-center align-items-center">
+    <h1 class="text-center my-4 dracula-green d-flex justify-content-center align-items-center gap-2">
+        <i class="bi bi-book-half"></i> Meus Cursos
+    </h1>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for chave, curso in cursos.items() %}
+            <div class="col">
+                <div class="card card-curso shadow rounded-4 h-100">
+                    <img src="{{ url_for('static', filename='img/' + chave + '.png') }}" class="card-img-top rounded-top-4" alt="...">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <h5 class="card-title">{{ curso.nome }}</h5>
+                        <a href="{{ url_for('page_curso', curso_id=chave) }}" class="btn btn-primary mt-3 d-flex justify-content-center align-items-center gap-1">
+                            <i class="bi bi-collection-play-fill"></i> Acessar Curso
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}{% endblock %}
