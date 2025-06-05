@@ -9,8 +9,8 @@
 
 {% block content %}
 <div class="conteudo container d-flex flex-column justify-content-center align-content-center text-center gap-4">
-    <h1 class="mb-0">Meus Cursos</h1>
-    <div class="intro-section my-3 text-start">
+    <h1 class="mt-4 mb-0">Meus Cursos</h1>
+    <div class="intro-section text-start">
         <h2>🧠 Sobre o Projeto</h2>
         <p>Este é um projeto pessoal desenvolvido para organizar e assistir cursos em vídeo armazenados localmente. A aplicação varre pastas no sistema de arquivos, identifica automaticamente os módulos, vídeos e descrições em Markdown, e exibe tudo em uma interface moderna e responsiva.</p>
         <p>A interface é construída com <strong>Flask</strong>, <strong>Bootstrap</strong> e o player <strong>Plyr.js</strong>, além de usar o tema visual inspirado no <strong>Dracula</strong> 🧛 — com direito a gradientes, sombras suaves e um layout que valoriza a imersão no conteúdo.</p>
@@ -24,7 +24,7 @@
         </ul>
     </div>
     <a href="{{ url_for('cursos') }}">
-        <button class="btn btn-primary">Ver Cursos</button>
+        <button class="btn btn-primary mb-1">Ver Cursos</button>
     </a>
 </div>
 {% endblock %}
