@@ -1,4 +1,6 @@
 const player = new Plyr('#player');
+const nextVideoWarnDiv = document.getElementById('nextVideoWarn')
+const nextVideoWarnMessage = document.getElementById('nextVideoWarnMessage')
 
 player.on('ended', () => {
   console.log("Vídeo terminou!");
@@ -20,6 +22,23 @@ player.on('ended', () => {
   .then(res => {
     if (res.ok) {
       console.log("Marcado como assistido!");
+
+      nextVideoWarnDiv.style.display = "flex";
+
+      // Espera 1 segundo antes de começar a contagem
+      setTimeout(() => {
+        nextVideoWarnMessage.innerHTML = "Indo para a próxima aula em 2 segundos!";
+
+        setTimeout(() => {
+          nextVideoWarnMessage.innerHTML = "Indo para a próxima aula em 1 segundo!";
+
+          setTimeout(() => {
+            document.getElementById("proximoVideo").click();
+          }, 1000); // depois de mais 1 segundo (total 3s)
+
+        }, 1000); // depois de 1 segundo (total 2s)
+
+      }, 1000); // espera inicial de 1 segundo
     } else {
       console.log("Erro ao marcar vídeo.");
     }

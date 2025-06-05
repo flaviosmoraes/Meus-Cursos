@@ -9,6 +9,7 @@
 {% block content %}
 <div class="video-container">
     <div class="player-size mx-auto shadow">
+        <div id="nextVideoWarn"><div id="nextVideoWarnMessage" class=" h1">Indo para a próxima aula em 3 segundos!</div></div>
         <video id="player" playsinline controls>
             <source src="{{ url_for('media', curso_id=curso_id, video_id=video.id) }}" type="video/mp4">
         </video>
@@ -25,7 +26,7 @@
     {% endif %}
     {% if video.next is defined %}
         <a href="{{ url_for('video', curso_id=curso_id, video_id=video.next) }}">
-            <button class="btn btn-secondary shadow">
+            <button class="btn btn-secondary shadow" id="proximoVideo">
                 Próxima aula <i class="bi bi-skip-forward-fill"></i>
             </button>
         </a>

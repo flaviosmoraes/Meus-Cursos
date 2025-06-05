@@ -209,6 +209,7 @@ table tr:hover {
 .player-size,
 .nav-buttons {
     max-width: calc(16/9 * (100vh - 3.5rem));
+    position: relative;
 }
 
 #player {
@@ -333,4 +334,18 @@ a:active {
 .custom-check:checked {
     background-color: #28a745;
     border-color: #28a745;
+}
+
+#nextVideoWarn {
+    background-color: #21222c;
+    opacity: 80%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    display: none;
+    justify-content: center;
+    align-items: center;
 }
