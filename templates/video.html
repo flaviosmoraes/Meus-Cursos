@@ -33,8 +33,11 @@
 </div>
 
 <div class="container d-flex flex-column">
-    <div class="d-flex justify-content-between align-items-center">
-        <h2 class="text-start">{{ video.title }}</h2>
+    <div class="d-flex justify-content-start align-items-center gap-2 my-2">
+        <div class="form-check d-flex justify-content-center align-items-center">
+            <input class="form-check-input custom-check" type="checkbox" id="checkAssistido" data-bs-toggle="tooltip" data-bs-placement="top" title="Marcar como assistido" {% if assistido %} checked {% endif %}>
+        </div>
+        <h2 class="text-start m-0">{{ video.title }}</h2>
     </div>
 
     <nav class="text-secondary" aria-label="breadcrumb">
@@ -55,7 +58,12 @@
 {% endblock %}
 
 {% block scripts %}
+<script>
+    const VIDEO_ID = "{{ video.id }}";
+    const CURSO_ID = "{{ curso_id }}";
+    const ASSISTIDO_URL = "{{url_for('assistido')}}"
+</script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
-<script src="{{ url_for('static', filename='js/video.js') }}"></script>
+<script src="{{ url_for('static', filename='js/video.js') }}?v=1.0"></script>
 {% endblock %}

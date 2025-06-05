@@ -1,7 +1,8 @@
-from flask import Flask, render_template, send_from_directory, request
+from flask import Flask, render_template, send_from_directory, request, jsonify
 from flask_caching import Cache
 import os
 from curso import Curso
+from db_utils import ja_assistido, marcar_como_assistido, desmarcar_como_assistido, listar_assistidos
 #from waitress import serve
 
 app = Flask(__name__)
@@ -30,7 +31,6 @@ def cursos():
     return render_template("cursos.html", cursos=lista_cursos)
 
 @app.route("/curso/<curso_id>")
-@cache.cached()  # Adicionando o cache para a rota de um curso específico
 def page_curso(curso_id):
     """
     Exibe a página com os detalhes de um curso específico.
@@ -44,10 +44,10 @@ def page_curso(curso_id):
     curso = lista_cursos.get(curso_id)
     if not curso:
         return "Curso não encontrado", 404
-    return render_template("curso.html", curso=curso, curso_id=curso_id)
+    assistidos = listar_assistidos(curso_id)
+    return render_template("curso.html", curso=curso, curso_id=curso_id, assistidos=assistidos)
 
 @app.route("/video/<curso_id>/<video_id>")
-@cache.cached()
 def video(curso_id, video_id):
     """
     Exibe a página de um vídeo específico de um curso.
@@ -68,7 +68,8 @@ def video(curso_id, video_id):
         caminho_vídeo = video.path.split(curso.nome + "\\")[1].split("\\")
         if caminho_vídeo[-1] == video.title:
             caminho_vídeo.pop(-1)
-        return render_template("video.html", video=video, curso_id=curso_id, curso_nome=curso.nome, caminho_vídeo=caminho_vídeo)
+        assistido = ja_assistido(video_id)
+        return render_template("video.html", video=video, curso_id=curso_id, curso_nome=curso.nome, caminho_vídeo=caminho_vídeo, assistido=assistido)
 
     return render_template("404.html", erro="Vídeo não encontrado"), 404
 
@@ -93,6 +94,24 @@ def media(curso_id, video_id):
         return send_from_directory(video.path, video.filename)
 
     return render_template("404.html", erro="Mídia não encontrada"), 404
+
+
+@app.route("/assistido", methods=["POST", "DELETE"])
+def assistido():
+    data = request.get_json()
+    video_id = data.get("video_id")
+    curso_id = data.get("curso_id")
+
+    if not video_id:
+        return jsonify({"error": "Dados incompletos"}), 400
+
+    if request.method == "POST":
+        marcar_como_assistido(video_id, curso_id)
+        return jsonify({"status": "marcado"})
+
+    if request.method == "DELETE":
+        desmarcar_como_assistido(video_id)
+        return jsonify({"status": "desmarcado"})
 
 
 if __name__ == "__main__":

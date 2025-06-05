@@ -24,7 +24,7 @@
                                 {% for video in modulo.videos %}
                                     <li>
                                         <a href="{{ url_for('video', curso_id=curso_id, video_id=video.id) }}">
-                                            {{ video.title }}
+                                            {{ video.title }} {% if video.id in assistidos %}<span class="badge text-bg-success">Assistido</span>{% endif %}
                                         </a>
                                     </li>
                                 {% endfor %}

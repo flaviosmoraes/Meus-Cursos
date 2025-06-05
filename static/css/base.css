@@ -320,3 +320,17 @@ a:active {
     content: "🟣";
     margin-right: 0.5rem;
 }
+
+.custom-check {
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50% !important;
+    cursor: pointer;
+    border: 2px solid #6c757d;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.custom-check:checked {
+    background-color: #28a745;
+    border-color: #28a745;
+}
